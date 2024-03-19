@@ -64,7 +64,7 @@ const startDraw = (e) => {
     ctx.strokeStyle = selectedColor; // passing selectedColor as stroke style
     ctx.fillStyle = selectedColor; // passing selectedColor as fill style
     // copying canvas data & passing as snapshot value.. this avoids dragging the image
-    snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+/*     snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height); */
 }
 
 const drawing = (e) => {

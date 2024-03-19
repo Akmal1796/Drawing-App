@@ -6,26 +6,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $password = $_POST["pwd"];
 
-    $sql = "SELECT `Password` FROM users WHERE Email='$email'";
+    // Prepare and execute a query to fetch user data including the user ID
+    $sql = "SELECT `ID`, `Password`, `User_Name` FROM users WHERE Email='$email'";
     $result = $conn->query($sql);
 
-    // Prepare and execute a query
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
+        $user_id = $row["ID"]; // Retrieve user ID from the fetched row
         $hashedPassword = $row["Password"];
 
         // Verify the provided password against the hashed password
         if (password_verify($password, $hashedPassword)) {
             // Successful login
-            $sql = "SELECT `User_Name` FROM `users` WHERE Email = '$email'";
-            $result = $conn->query($sql);
+            $name = $row["User_Name"];
+            $_SESSION['User_ID'] = $user_id; // Set user ID in session
+            $_SESSION['Email'] = $name; // Set user name in session
 
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $name = $row["User_Name"];
-                $_SESSION['Email'] = $name;
-            }
             header("Location: index.php?login=success");
+            exit(); // Make sure to exit after redirection
         } else {
             // Invalid password
             echo "Invalid email or password";

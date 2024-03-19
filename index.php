@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Database connection
 $servername = "localhost";
 $username = "root";
@@ -57,7 +58,6 @@ if ($conn->connect_error) {
 
 <body>
   <?php
-  session_start();
   if (isset($_SESSION['Email'])) {
     echo '<div class="loginRegisterbtn">' .
       '<button type="button" class="logreg">' . $_SESSION['Email'] . '</button>' .
@@ -197,7 +197,9 @@ if ($conn->connect_error) {
   ?>
 
   <!-- Form section -->
-  <form id="myForm">
+  <form id="myForm" method="post" action="submit_form.php">
+    <input type="hidden" id="canvasImageData" name="canvasImageData">
+    <input type="hidden" name="user_id" value="<?php echo $_SESSION['User_ID']; ?>"> <!-- Get user ID from session -->
     <div id="previewContainer">
       <label for="preview">Canvas Preview:</label><br>
       <img id="preview" src="" alt="Canvas Preview"><br>
@@ -207,6 +209,15 @@ if ($conn->connect_error) {
     <button type="submit">Submit</button>
     <button type="button" id="cancelBtn">Cancel</button>
   </form>
+
+  <?php
+  if (isset($_SESSION['User_ID'])) {
+    // Output user ID as JavaScript variable
+    echo '<script>
+    var userId = ' . $_SESSION['User_ID'] . ';
+  </script>';
+  }
+  ?>
 
   <!--   <div class="container">
     <section class="tools-board">
@@ -295,6 +306,20 @@ if ($conn->connect_error) {
       document.getElementById('previewContainer').style.display = 'none';
     });
 
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const projectName = document.getElementById('projectName').value;
+      const imageData = document.getElementById('preview').src;
+
+      // Update hidden input field with canvas image data
+      document.getElementById('canvasImageData').value = imageData;
+
+      // Submit the form
+      this.submit();
+      // Optionally, you can hide the form and preview container here
+    });
+
+
     // Canvas Drawing Functionality
     /*     const canvas = document.getElementById('drawingCanvas');
         const ctx = canvas.getContext('2d');
@@ -324,6 +349,14 @@ if ($conn->connect_error) {
         canvas.addEventListener('mouseout', () => {
           isDrawing = false;
         }); */
+
+    // Check if userId variable is defined
+    if (typeof userId !== 'undefined') {
+      // Log user ID to the console
+      console.log('User ID:', userId);
+    } else {
+      console.log('User ID not found.');
+    }
   </script>
 </body>
 
