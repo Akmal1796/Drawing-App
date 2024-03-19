@@ -21,6 +21,38 @@ if ($conn->connect_error) {
   <link rel="stylesheet" href="Styles/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="Scripts/script.js" defer></script>
+  <style>
+    #myForm {
+      display: none;
+      position: absolute;
+      top: 15%;
+      left: 10%;
+      width: 50%;
+      height: 75%;
+      background-color: rgba(200, 200, 200, 1);
+      z-index: 1;
+      padding: 20px;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+
+    canvas {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    #previewContainer {
+      display: none;
+    }
+
+    #preview {
+      width: 100%;
+      height: auto;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 
 <body>
@@ -89,7 +121,7 @@ if ($conn->connect_error) {
       '<div class="row buttons">' .
       '<button class="clear-canvas">Clear Canvas</button>' .
       '<button class="save-img">Save As Image</button>' .
-      '<button class="save-img">Save Project</button>' .
+      '<button id="saveProjectBtn" class="save-img">Save Project</button>' .
       '</div>' .
       '</section>' .
       '<section class="drawing-board">' .
@@ -164,6 +196,18 @@ if ($conn->connect_error) {
   }
   ?>
 
+  <!-- Form section -->
+  <form id="myForm">
+    <div id="previewContainer">
+      <label for="preview">Canvas Preview:</label><br>
+      <img id="preview" src="" alt="Canvas Preview"><br>
+    </div>
+    <label for="projectName">Project Name:</label><br>
+    <input type="text" id="projectName" name="projectName" required><br><br>
+    <button type="submit">Submit</button>
+    <button type="button" id="cancelBtn">Cancel</button>
+  </form>
+
   <!--   <div class="container">
     <section class="tools-board">
       <div class="row">
@@ -224,6 +268,63 @@ if ($conn->connect_error) {
       <canvas></canvas>
     </section>
   </div> -->
+
+  <script>
+    document.getElementById('saveProjectBtn').addEventListener('click', function() {
+      document.getElementById('myForm').style.display = 'block';
+      document.getElementById('previewContainer').style.display = 'block';
+      //const canvas = document.getElementById('drawingCanvas');
+      const imageData = canvas.toDataURL();
+      document.getElementById('preview').src = imageData;
+    });
+
+    document.getElementById('cancelBtn').addEventListener('click', function() {
+      document.getElementById('myForm').style.display = 'none';
+      document.getElementById('previewContainer').style.display = 'none';
+    });
+
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const projectName = document.getElementById('projectName').value;
+      const imageData = document.getElementById('preview').src;
+
+      console.log('Project Name:', projectName);
+      console.log('Canvas Image Data:', imageData);
+
+      document.getElementById('myForm').style.display = 'none';
+      document.getElementById('previewContainer').style.display = 'none';
+    });
+
+    // Canvas Drawing Functionality
+    /*     const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        canvas.addEventListener('mousedown', (e) => {
+          isDrawing = true;
+          [lastX, lastY] = [e.offsetX, e.offsetY];
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+          if (!isDrawing) return;
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(e.offsetX, e.offsetY);
+          ctx.stroke();
+          [lastX, lastY] = [e.offsetX, e.offsetY];
+        });
+
+        canvas.addEventListener('mouseup', () => {
+          isDrawing = false;
+        });
+
+        canvas.addEventListener('mouseout', () => {
+          isDrawing = false;
+        }); */
+  </script>
 </body>
 
 </html>
