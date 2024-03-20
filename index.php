@@ -363,6 +363,19 @@ if ($conn->connect_error) {
   </div> -->
 
   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const submitSuccess = urlParams.get('submit_success');
+      const submitError = urlParams.get('submit_error');
+
+      if (submitSuccess) {
+        alert('Project submitted successfully!');
+      } else if (submitError) {
+        alert(submitError);
+      }
+    });
+
+
     document.getElementById('saveProjectBtn').addEventListener('click', function() {
       document.getElementById('myForm').style.display = 'block';
       document.getElementById('previewContainer').style.display = 'block';
@@ -398,7 +411,6 @@ if ($conn->connect_error) {
 
       // Submit the form
       this.submit();
-      // Optionally, you can hide the form and preview container here
     });
 
     // Check if userId variable is defined
@@ -463,7 +475,6 @@ if ($conn->connect_error) {
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-      // Other code...
 
       projectPreviews.addEventListener('click', function(e) {
         if (e.target.classList.contains('delete-project')) {
@@ -475,7 +486,6 @@ if ($conn->connect_error) {
       });
 
       function deleteProject(projectId) {
-        // Send AJAX request to delete project
         fetch('delete_project.php?id=' + projectId, {
             method: 'DELETE'
           })

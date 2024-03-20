@@ -4,11 +4,10 @@ session_start();
 // Check if the user is logged in
 if (!isset($_SESSION['Email'])) {
     // Redirect the user to the login page or display an error message
-    header("Location: login.html"); // Assuming login.php is your login page
+    header("Location: login.html");
     exit();
 }
 
-// Assuming your MySQL database credentials
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -37,10 +36,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Execute the statement
     if ($stmt->execute()) {
-        echo "Project submitted successfully!";
+        // Redirect to index.php with success message
+        header("Location: index.php?submit_success=1");
+        exit();
     } else {
-        echo "Error submitting project: " . $conn->error;
+        // Redirect to index.php with error message
+        header("Location: index.php?submit_error=" . urlencode("Error submitting project: " . $conn->error));
+        exit();
     }
+
 
     // Close statement
     $stmt->close();
