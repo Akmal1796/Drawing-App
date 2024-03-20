@@ -53,6 +53,76 @@ if ($conn->connect_error) {
       border: 1px solid #ddd;
       border-radius: 5px;
     }
+
+    /* Card container */
+    .card {
+      display: none;
+      /* Initially hide the card */
+      position: fixed;
+      /* Fixed positioning to overlay content */
+      top: 50%;
+      /* Center the card vertically */
+      left: 50%;
+      /* Center the card horizontally */
+      transform: translate(-50%, -50%);
+      /* Center the card */
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      max-width: 80%;
+      /* Limit card width */
+      max-height: 80%;
+      /* Limit card height */
+      overflow-y: auto;
+      /* Enable vertical scrolling if needed */
+      z-index: 1000;
+      /* Ensure the card appears above other content */
+    }
+
+    /* Card header */
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    /* Card title */
+    .card-header h2 {
+      margin: 0;
+    }
+
+    /* Card body */
+    .card-body {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      /* Responsive grid layout */
+      gap: 20px;
+      /* Spacing between project previews */
+    }
+
+    /* Project preview */
+    .project-preview {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    /* Project preview image */
+    .project-preview img {
+      max-width: 200px;
+      max-height: 100px;
+      /* Limit image height */
+      margin-bottom: 5px;
+    }
+
+    /* Project preview name */
+    .project-preview p {
+      margin: 0;
+      font-size: 14px;
+    }
   </style>
 </head>
 
@@ -67,7 +137,7 @@ if ($conn->connect_error) {
       '<section class="tools-board">' .
       '<div class="row buttons">' .
       '<button class="open-project">Open Project</button>' .
-      '<button class="access-project">My Projects</button>' .
+      '<button id="myProjectsBtn" class="access-project">My Projects</button>' .
       '</div>' .
       '<div class="row">' .
       '<label class="title">Shapes</label>' .
@@ -209,6 +279,18 @@ if ($conn->connect_error) {
     <button type="submit">Submit</button>
     <button type="button" id="cancelBtn">Cancel</button>
   </form>
+
+
+  <!-- Card to display projects -->
+  <div class="card" id="myProjectsCard">
+    <div class="card-header">
+      <h2>My Projects</h2>
+      <button id="cancelProjectsBtn">Cancel</button>
+    </div>
+    <div class="card-body" id="projectPreviews">
+      <!-- Project previews will be dynamically added here -->
+    </div>
+  </div>
 
   <?php
   if (isset($_SESSION['User_ID'])) {
@@ -357,6 +439,75 @@ if ($conn->connect_error) {
     } else {
       console.log('User ID not found.');
     }
+
+    // JavaScript code for the drawing app functionality and project display
+    document.addEventListener('DOMContentLoaded', function() {
+      const myProjectsBtn = document.getElementById('myProjectsBtn');
+      const myProjectsCard = document.getElementById('myProjectsCard');
+      const projectPreviews = document.getElementById('projectPreviews');
+      const cancelProjectsBtn = document.getElementById('cancelProjectsBtn');
+
+      myProjectsBtn.addEventListener('click', function() {
+        // Show My Projects card
+        myProjectsCard.style.display = 'block';
+        // Fetch projects associated with the current user ID from the server
+        fetchProjects();
+      });
+
+      cancelProjectsBtn.addEventListener('click', function() {
+        // Hide My Projects card
+        myProjectsCard.style.display = 'none';
+      });
+
+      function fetchProjects() {
+        // Fetch projects associated with the current user ID from the server
+        // You need to implement this function to fetch projects via AJAX
+        // Example AJAX request:
+
+        fetch('fetch_projects.php')
+          .then(response => response.json())
+          .then(data => {
+            // Process the retrieved projects and display project previews
+            displayProjectPreviews(data);
+          })
+          .catch(error => console.error('Error fetching projects:', error));
+
+        /*         // For demonstration purposes, let's assume we have a sample array of projects
+                const sampleProjects = [{
+                    id: 1,
+                    name: 'Project 1',
+                    imageUrl: 'project1.jpg'
+                  },
+                  {
+                    id: 2,
+                    name: 'Project 2',
+                    imageUrl: 'project2.jpg'
+                  },
+                  {
+                    id: 3,
+                    name: 'Project 3',
+                    imageUrl: 'project3.jpg'
+                  }
+                ];
+                displayProjectPreviews(sampleProjects); */
+      }
+
+      function displayProjectPreviews(projects) {
+        // Clear existing project previews
+        projectPreviews.innerHTML = '';
+        // Display project previews
+        projects.forEach(project => {
+          const projectPreview = document.createElement('div');
+          projectPreview.classList.add('project-preview');
+          projectPreview.innerHTML = `
+      <img src="${project.Project_File}" alt="${project.Project_Name}">
+      <p>${project.Project_Name}</p>
+    `;
+          projectPreviews.appendChild(projectPreview);
+        });
+      }
+
+    });
   </script>
 </body>
 
