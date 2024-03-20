@@ -123,10 +123,95 @@ if ($conn->connect_error) {
       margin: 0;
       font-size: 14px;
     }
+
+    .main {
+      margin: 50px;
+      background-color: lightslategray;
+      padding: 3px 0;
+      border-radius: 3px;
+      position: fixed;
+      top: -45px;
+      left: 200px;
+    }
+
+    .nav-bar {
+      word-spacing: 40px;
+      font-size: 20px;
+      font-family: arial;
+    }
+
+    .nav-bar ul li a {
+      text-decoration: none;
+      padding: 5px;
+      color: white;
+    }
+
+    .nav-bar ul li {
+      display: inline-block;
+      -webkit-transition: background-color 1s, color 1s;
+    }
+
+    .nav-bar ul li:hover {
+      background-color: #e91e63;
+      color: white;
+    }
+
+    .nav-bar ul .active {
+      background-color: #e91e63;
+      border-radius: 2px;
+      color: white;
+    }
+
+    .form-submit-btn {
+      background-color: #6DD400;
+      color: white;
+      border: none;
+      padding: 5px;
+      border-radius: 10px;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+
+    .form-cancel-btn {
+      background-color: #E02020;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 5px;
+      border: 10px;
+      cursor: pointer;
+    }
+
+    .card-cancel-btn {
+      background-color: royalblue;
+      color: white;
+      border: none;
+      padding: 5px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .delete-project {
+      background-color: crimson;
+      color: white;
+      border: none;
+      padding: 5px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
   </style>
 </head>
 
 <body>
+  <div class="main">
+    <nav class="nav-bar">
+      <ul>
+        <li><a href="" class="active"> Home </a></li>
+        <li><a href="about.html" class=""> About </a></li>
+        <li><a href="contact.html" class=""> Contact </a></li>
+      </ul>
+    </nav>
+  </div>
   <?php
   if (isset($_SESSION['Email'])) {
     echo '<div class="loginRegisterbtn">' .
@@ -276,8 +361,8 @@ if ($conn->connect_error) {
     </div>
     <label for="projectName">Project Name:</label><br>
     <input type="text" id="projectName" name="projectName" required><br><br>
-    <button type="submit">Submit</button>
-    <button type="button" id="cancelBtn">Cancel</button>
+    <button type="submit" class="form-submit-btn">Submit</button>
+    <button type="button" id="cancelBtn" class="form-cancel-btn">Cancel</button>
   </form>
 
 
@@ -285,13 +370,13 @@ if ($conn->connect_error) {
   <div class="card" id="myProjectsCard">
     <div class="card-header">
       <h2>My Projects</h2>
-      <button id="cancelProjectsBtn">Cancel</button>
+      <button id="cancelProjectsBtn" class="card-cancel-btn">Cancel</button>
     </div>
     <div class="card-body" id="projectPreviews">
       <!-- Project previews will be dynamically added here -->
     </div>
   </div>
-
+  </div>
   <?php
   if (isset($_SESSION['User_ID'])) {
     // Output user ID as JavaScript variable
@@ -301,7 +386,148 @@ if ($conn->connect_error) {
   }
   ?>
 
-  <script src="Scripts/project_load_delete.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const submitSuccess = urlParams.get('submit_success');
+      const submitError = urlParams.get('submit_error');
+
+      if (submitSuccess) {
+        alert('Project submitted successfully!');
+      } else if (submitError) {
+        alert(submitError);
+      }
+    });
+
+
+    document.getElementById('saveProjectBtn').addEventListener('click', function() {
+      document.getElementById('myForm').style.display = 'block';
+      document.getElementById('previewContainer').style.display = 'block';
+      //const canvas = document.getElementById('drawingCanvas');
+      const imageData = canvas.toDataURL();
+      document.getElementById('preview').src = imageData;
+    });
+
+    document.getElementById('cancelBtn').addEventListener('click', function() {
+      document.getElementById('myForm').style.display = 'none';
+      document.getElementById('previewContainer').style.display = 'none';
+    });
+
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const projectName = document.getElementById('projectName').value;
+      const imageData = document.getElementById('preview').src;
+
+      console.log('Project Name:', projectName);
+      console.log('Canvas Image Data:', imageData);
+
+      document.getElementById('myForm').style.display = 'none';
+      document.getElementById('previewContainer').style.display = 'none';
+    });
+
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const projectName = document.getElementById('projectName').value;
+      const imageData = document.getElementById('preview').src;
+
+      // Update hidden input field with canvas image data
+      document.getElementById('canvasImageData').value = imageData;
+
+      // Submit the form
+      this.submit();
+    });
+
+    // Check if userId variable is defined
+    if (typeof userId !== 'undefined') {
+      // Log user ID to the console
+      console.log('User ID:', userId);
+    } else {
+      console.log('User ID not found.');
+    }
+
+    // JavaScript code for the drawing app functionality and project display
+    document.addEventListener('DOMContentLoaded', function() {
+      const myProjectsBtn = document.getElementById('myProjectsBtn');
+      const myProjectsCard = document.getElementById('myProjectsCard');
+      const projectPreviews = document.getElementById('projectPreviews');
+      const cancelProjectsBtn = document.getElementById('cancelProjectsBtn');
+
+      myProjectsBtn.addEventListener('click', function() {
+        // Show My Projects card
+        myProjectsCard.style.display = 'block';
+        // Fetch projects associated with the current user ID from the server
+        fetchProjects();
+      });
+
+      cancelProjectsBtn.addEventListener('click', function() {
+        // Hide My Projects card
+        myProjectsCard.style.display = 'none';
+      });
+
+      function fetchProjects() {
+        // Fetch projects associated with the current user ID from the server
+        fetch('fetch_projects.php')
+          .then(response => response.json())
+          .then(data => {
+            // Process the retrieved projects and display project previews
+            displayProjectPreviews(data);
+
+            // Check if there are no projects left
+            if (data.length === 0) {
+              document.getElementById('myProjectsCard').style.display = 'none';
+            }
+          })
+          .catch(error => console.error('Error fetching projects:', error));
+      }
+
+
+      function displayProjectPreviews(projects) {
+        // Clear existing project previews
+        projectPreviews.innerHTML = '';
+        // Display project previews
+        projects.forEach(project => {
+          const projectPreview = document.createElement('div');
+          projectPreview.classList.add('project-preview');
+          projectPreview.innerHTML = `
+      <img src="${project.Project_File}" alt="${project.Project_Name}">
+  <p>${project.Project_Name}</p>
+        <button class="delete-project" data-id="${project.ID}">Delete</button>
+    `;
+          projectPreviews.appendChild(projectPreview);
+        });
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+      projectPreviews.addEventListener('click', function(e) {
+        if (e.target.classList.contains('delete-project')) {
+          const projectId = e.target.dataset.id;
+          if (confirm('Are you sure you want to delete this project?')) {
+            deleteProject(projectId);
+          }
+        }
+      });
+
+      function deleteProject(projectId) {
+        fetch('delete_project.php?id=' + projectId, {
+            method: 'DELETE'
+          })
+          .then(response => {
+            if (response.ok) {
+              // Display delete success message
+              alert('Project Successfully Deleted!');
+              // Close the card
+              myProjectsCard.style.display = 'none';
+            } else {
+              console.error('Failed to delete project');
+            }
+          })
+          .catch(error => console.error('Error deleting project:', error));
+      }
+
+    });
+  </script>
 </body>
 
 </html>

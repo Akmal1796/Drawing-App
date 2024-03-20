@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <style>
+        /* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+    *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    }
+
+    body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(to left, rgba(139, 221, 242, 0.5), rgba(39, 213, 193, 0.5));
+    }
+    .main {
+      margin: 50px;
+      background-color: lightslategray;
+      padding: 3px 0;
+      border-radius: 3px;
+      position: fixed;
+      top: -45px;
+      left: 200px;
+    }
+
+    .nav-bar {
+      word-spacing: 40px;
+      font-size: 20px;
+      font-family: arial;
+    }
+
+    .nav-bar ul li a {
+      text-decoration: none;
+      padding: 5px;
+      color: white;
+    }
+
+    .nav-bar ul li {
+      display: inline-block;
+      -webkit-transition: background-color 1s, color 1s;
+    }
+
+    .nav-bar ul li:hover {
+      background-color: #e91e63;
+      color: white;
+    }
+
+    .nav-bar ul .active {
+      background-color: #e91e63;
+      border-radius: 2px;
+      color: white;
+    }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <nav class="nav-bar">
+          <ul>
+            <li><a href="index.php" class=""> Home </a></li>
+            <li><a href="about.html" class=""> About </a></li>
+            <li><a href="" class="active"> Contact </a></li>
+          </ul>
+        </nav>
+      </div>
+</body>
+</html>
