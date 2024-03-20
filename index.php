@@ -401,37 +401,6 @@ if ($conn->connect_error) {
       // Optionally, you can hide the form and preview container here
     });
 
-
-    // Canvas Drawing Functionality
-    /*     const canvas = document.getElementById('drawingCanvas');
-        const ctx = canvas.getContext('2d');
-
-        let isDrawing = false;
-        let lastX = 0;
-        let lastY = 0;
-
-        canvas.addEventListener('mousedown', (e) => {
-          isDrawing = true;
-          [lastX, lastY] = [e.offsetX, e.offsetY];
-        });
-
-        canvas.addEventListener('mousemove', (e) => {
-          if (!isDrawing) return;
-          ctx.beginPath();
-          ctx.moveTo(lastX, lastY);
-          ctx.lineTo(e.offsetX, e.offsetY);
-          ctx.stroke();
-          [lastX, lastY] = [e.offsetX, e.offsetY];
-        });
-
-        canvas.addEventListener('mouseup', () => {
-          isDrawing = false;
-        });
-
-        canvas.addEventListener('mouseout', () => {
-          isDrawing = false;
-        }); */
-
     // Check if userId variable is defined
     if (typeof userId !== 'undefined') {
       // Log user ID to the console
@@ -461,36 +430,20 @@ if ($conn->connect_error) {
 
       function fetchProjects() {
         // Fetch projects associated with the current user ID from the server
-        // You need to implement this function to fetch projects via AJAX
-        // Example AJAX request:
-
         fetch('fetch_projects.php')
           .then(response => response.json())
           .then(data => {
             // Process the retrieved projects and display project previews
             displayProjectPreviews(data);
+
+            // Check if there are no projects left
+            if (data.length === 0) {
+              document.getElementById('myProjectsCard').style.display = 'none';
+            }
           })
           .catch(error => console.error('Error fetching projects:', error));
-
-        /*         // For demonstration purposes, let's assume we have a sample array of projects
-                const sampleProjects = [{
-                    id: 1,
-                    name: 'Project 1',
-                    imageUrl: 'project1.jpg'
-                  },
-                  {
-                    id: 2,
-                    name: 'Project 2',
-                    imageUrl: 'project2.jpg'
-                  },
-                  {
-                    id: 3,
-                    name: 'Project 3',
-                    imageUrl: 'project3.jpg'
-                  }
-                ];
-                displayProjectPreviews(sampleProjects); */
       }
+
 
       function displayProjectPreviews(projects) {
         // Clear existing project previews
@@ -500,11 +453,43 @@ if ($conn->connect_error) {
           const projectPreview = document.createElement('div');
           projectPreview.classList.add('project-preview');
           projectPreview.innerHTML = `
-      <img src="${project.Project_File}" alt="${project.Project_Name}">
+          <img src="${project.Project_File}" alt="${project.Project_Name}">
       <p>${project.Project_Name}</p>
-    `;
+            <button class="delete-project" data-id="${project.ID}">Delete</button>
+        `;
           projectPreviews.appendChild(projectPreview);
         });
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Other code...
+
+      projectPreviews.addEventListener('click', function(e) {
+        if (e.target.classList.contains('delete-project')) {
+          const projectId = e.target.dataset.id;
+          if (confirm('Are you sure you want to delete this project?')) {
+            deleteProject(projectId);
+          }
+        }
+      });
+
+      function deleteProject(projectId) {
+        // Send AJAX request to delete project
+        fetch('delete_project.php?id=' + projectId, {
+            method: 'DELETE'
+          })
+          .then(response => {
+            if (response.ok) {
+              // Display delete success message
+              alert('Project Successfully Deleted!');
+              // Close the card
+              myProjectsCard.style.display = 'none';
+            } else {
+              console.error('Failed to delete project');
+            }
+          })
+          .catch(error => console.error('Error deleting project:', error));
       }
 
     });
