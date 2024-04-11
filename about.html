@@ -4,24 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About</title>
+    <link rel="stylesheet" href="Styles/footer-style.css">
+    
+                                <!-- icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* Import Google font - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
     *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
     }
 
     body{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: linear-gradient(to left, rgba(139, 221, 242, 0.5), rgba(39, 213, 193, 0.5));
+      background: url(images/bg4.jpg) repeat-y;
     }
+
+    .main-contents {
+      margin-right: 220px;
+      margin-left: 80px;
+    }
+
     .main {
       margin: 50px;
       background-color: lightslategray;
@@ -59,10 +64,48 @@
       border-radius: 2px;
       color: white;
     }
+
+    .content {
+      margin-top: 100px;
+    }
+
+    .head-discripton {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .step-section {
+      display: grid;
+      grid-template-columns: 60% 40%;
+      margin-bottom: 30px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .step-section p {
+      font-weight: bold;
+    }
+
+    .guid-images-left,
+    .guid-images-right {
+      width: 650px;
+      border-radius: 15px;
+      display: inline-block;
+    }
+
+    .guid-images-left {
+      left: 0;
+    }
+
+    .guid-images-right {
+      right: 0;
+    }
+
     </style>
 </head>
 <body>
-    <div class="main">
+    <div class="main-contents">
+      <div class="main">
         <nav class="nav-bar">
           <ul>
             <li><a href="index.php" class=""> Home </a></li>
@@ -71,5 +114,108 @@
           </ul>
         </nav>
       </div>
+      <div class="content">
+        <div class="head-discripton">
+          <h3>
+            Welcome to my drawing app. Below, you can see the steps to use this software easily. Feel free to see all the instructions for a better experience with the software.
+            </h3>
+        </div>
+        <div class="step-section">
+          <img src="images/img18.png" class="guid-images-left">
+          <p>
+            You can use this software without having an account with limited features. The guest version of my software also provides better features to its users. For example, guest users can also save their works as images on their PCs.
+            </p>
+        </div>
+        <div class="step-section">
+          <p>
+            Here you can see the extra features like save projects, open projects, and my projects. Each of these features provides the user with a better experience when using this software. You can save your work on the cloud and access it anytime. This will prevent data loss when you lose your work on your PC.
+            </p>
+          <img src="images/img11.png" class="guid-images-right">
+        </div>
+        <div class="step-section">
+          <img src="images/img1.png" class="guid-images-left">
+          <p>Here you see the simple login page. A user can login if they already registered.</p>
+        </div>
+        <div class="step-section">
+          <p>If the user does not have an account, they can register via a registration form.</p>
+          <img src="images/img2.png" class="guid-images-right">
+        </div>
+        <div class="step-section">
+          <img src="images/img3.png" class="guid-images-left">
+          <p>Here is the registration form. It just takes one minute to register.</p>
+        </div>
+        <div class="step-section">
+          <p>Every type of user can save their work as an image to their PC by clicking the save as an image button.</p>
+          <img src="images/img19.png" class="guid-images-right">
+        </div>
+        <div class="step-section">
+          <img src="images/img7.png" class="guid-images-left">
+          <p>You can use shapes that are available in the menu bar to draw structured drawings. You can also use a free brush that will help you draw on the screen, like drawing on paper. You can adjust the size of the brush as well.</p>
+        </div>
+        <div class="step-section">
+          <p>You can use an eraser to erase the drawing, just like painting, and if you want to clear all the drawings, you can simply click the clear canvas button, and it will clear all the drawings on the canvas. You can adjust the size of the eraser as well.</p>
+          <img src="images/img9.png" class="guid-images-right">
+        </div>
+        <div class="step-section">
+          <img src="images/img13.png" class="guid-images-left">
+          <p>You can save your work by simply clicking the save project button. It will save your work in our database.</p>
+        </div>
+        <div class="step-section">
+          <p>Whenever you need your work, you can view it by clicking the Projects button, which will preview all of your r work. If you want to delete your previous works, you can simply click the delete button on the preview and confirm deletion. </p>
+          <img src="images/img17.png" class="guid-images-right">
+        </div>
+      </div>
+    </div>
+    <div class="footer-section reveal">
+      <div class="footer-content">
+          <div class="left-footer-section">
+              <div class="footer-discription">
+                  <img src="Logo/logo.png" class="footer-logo">
+                  <p>Explore the latest updates, insightful articles, and client reviews to witness the software status. Connect with us on social media for real-time updates and to stay informed about the ever-evolving world.</p>
+              </div>
+              <h3>Address</h3>
+              <p class="address-paragraph"> No.01, St Name,<br>
+                  City</p>
+              <div class="social-media-links">
+                  <div>
+                      <h4>Follow US On</h4>
+                      <a href="https://x.com/Akmal_official_?t=jVZTUPqgKStUu-fO6PsTkQ&s=08" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+                      <a href="https://www.instagram.com/mhd_akmal_17?utm_source=qr&igsh=emYxdTJneWZrMXBj" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                      <a href="https://www.facebook.com/mohamad.akmal.1614?sfnsn=wa&mibextid=RUbZ1f" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                      <a href="https://www.threads.net/@mhd_akmal_17" target="_blank"><i class="fa-brands fa-threads"></i><br></a>
+                      <a href="#" target="_blank"><i class="fa-solid fa-phone"></i></a>
+                      <a href="https://telegram.org/dl" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                      <a href="#" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                      <a href="https://discord.com/invite/PfvfJvbV" target="_blank"><i class="fa-brands fa-discord"></i></a>
+                  </div>
+                  <div>
+                      <h4>To Know More</h4>
+                      <a href="https://youtube.com/@programmingacademy4699?feature=shared" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                      <a href="https://stackoverflow.com/users/20191382/mohamed-akmal" target="_blank"><i class="fa-brands fa-stack-overflow"></i></a>
+                      <a href="https://github.com/Akmal1796" target="_blank"><i class="fa-brands fa-square-github"></i></a>
+                      <a href="https://www.linkedin.com/in/mohamed-akmal?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                      <a href="https://www.upwork.com/workwith/mohameda1339" target="_blank"><i class="fa-brands fa-upwork"></i></a>
+                  </div>
+              </div>
+          </div>
+          <div class="right-footer-section">
+              <h3>Contact Us</h3>
+              <p> For inquiries and collaborations,</p>
+              <form action="https://api.web3forms.com/submit" method="POST" class="newsletter-form" id="contact-form">
+                  <input type="hidden" name="access_key" value="02ce8023-c44f-45a1-9c3d-5a9bdd44b003">
+                  <input type="text" name="name" placeholder="Your Name" class="name">
+                  <input type="email" name="email" placeholder="Your Email" class="email">
+                  <textarea name="message" rows="5" cols="30" placeholder="Enter Your Message" class="message"></textarea>
+                  <button type="submit" class="submit-btn">Submit</button>
+              </form>
+          </div>
+      </div>
+
+      <div>
+          <p class="copyright-section">
+              2024 &copy All rights reserved - Mohamed Akmal
+          </p>
+      </div>
+  </div>
 </body>
 </html>
