@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['Email'] = $name; // Set user name in session
 
             header("Location: index.php?login=success");
-            exit(); // Make sure to exit after redirection
+            exit();
         } else {
             // Invalid password
             echo "Invalid email or password";
